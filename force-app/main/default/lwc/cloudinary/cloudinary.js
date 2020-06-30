@@ -2,7 +2,8 @@ import { LightningElement, api, wire } from "lwc";
 import { getRecord, getFieldValue, updateRecord } from "lightning/uiRecordApi";
 import { refreshApex } from "@salesforce/apex";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import { config } from "./config.js";
+import getImages from '@salesforce/apex/ImageController.getImages';
+import getHeroku from '@salesforce/apex/HerokuController.getHeroku';
 
 const IMAGE_FIELDS = [
   "Image__c.Name",
@@ -10,23 +11,41 @@ const IMAGE_FIELDS = [
   "Image__c.ImageId__c"
 ]
 
-const HEROKU_URL = config.heroku_url;
-
 export default class Cloudinary extends LightningElement {
 
   @api isLoaded = false;
   @api recordId;
+
+  @wire(getHeroku)
+  getHeroku({ error, data }) {
+    if (data) {
+      this.heroku_url = data.url__c;
+    }
+    if (error) {
+      console.log(error);
+    }
+  }
+
+  @wire(getImages, {})
+  getImages({ error, data }) {
+    if (data) {
+      this.images = data;
+    }
+    if (error) {
+      console.log(error);
+    }
+  }
 
   @wire(getRecord, { 
     recordId: "$recordId", fields: IMAGE_FIELDS
   }) image;
 
   get image_url() {
-    return getFieldValue(this.image.data, IMAGE_FIELDS[1]);
+    return getFieldValue(this.image.data, "Image__c.ImageUrl__c");
   }
 
   get image_id() {
-    return getFieldValue(this.image.data, IMAGE_FIELDS[2]);
+    return getFieldValue(this.image.data, "Image__c.ImageId__c");
   }
 
   handleImageUpload(event) {
@@ -101,7 +120,7 @@ export default class Cloudinary extends LightningElement {
   uploadAction(file) {
     return new Promise((resolve, reject) => {
       this.httpRequest(
-        HEROKU_URL + "/api/upload",
+        this.heroku_url + "/api/upload",
         "POST",
         {
           "upload_file": file
@@ -115,7 +134,7 @@ export default class Cloudinary extends LightningElement {
   deleteAction(image_id) {
     return new Promise((resolve, reject) => {
       this.httpRequest(
-        HEROKU_URL + "/api/delete",
+        this.heroku_url + "/api/delete",
         "POST",
         {
           "public_id": image_id
