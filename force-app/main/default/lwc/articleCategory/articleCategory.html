@@ -2,16 +2,17 @@
   <lightning-card title="カテゴリー" icon-name="custom:custom15">
     <div style="padding: 0 20px;">
       <lightning-checkbox-group
-        name="カテゴリー"
-        options={options}
-        value={}
-        onchange={handleChange}>
+        class="test"
+        name="category"
+        options={categoryOptions}
+        value={articleCategoryIds}
+        onchange={handleCheckboxChange}
+      >
       </lightning-checkbox-group>
-      
       <div style="padding: 10px 0 0 0;">
         <lightning-button
           label="登録"
-          onclick={handleChange}>
+          onclick={handleCheckboxUpdate}>
         </lightning-button>
       </div>
     </div>
