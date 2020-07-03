@@ -1,0 +1,19 @@
+<template>
+  <lightning-card title="カテゴリー" icon-name="custom:custom15">
+    <div style="padding: 0 20px;">
+      <lightning-checkbox-group
+        name="カテゴリー"
+        options={options}
+        value={}
+        onchange={handleChange}>
+      </lightning-checkbox-group>
+      
+      <div style="padding: 10px 0 0 0;">
+        <lightning-button
+          label="登録"
+          onclick={handleChange}>
+        </lightning-button>
+      </div>
+    </div>
+  </lightning-card>
+</template>
