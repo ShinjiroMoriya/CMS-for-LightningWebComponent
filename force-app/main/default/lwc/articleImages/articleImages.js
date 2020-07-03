@@ -1,5 +1,5 @@
 import { LightningElement, wire, api } from 'lwc';
-import { getRecord, createRecord, updateRecord, getFieldValue } from "lightning/uiRecordApi";
+import { getRecord, createRecord, updateRecord } from "lightning/uiRecordApi";
 import { refreshApex } from "@salesforce/apex";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import getImages from "@salesforce/apex/ImageController.getImages";
