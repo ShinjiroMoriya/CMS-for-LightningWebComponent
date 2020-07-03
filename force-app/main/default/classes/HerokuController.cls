@@ -10,5 +10,4 @@ public with sharing class HerokuController {
             LIMIT 1
         ];
     }
-
 }
