@@ -5,6 +5,12 @@
         "paths": {
             "c/cloudinary": [
                 "cloudinary/cloudinary.js"
+            ],
+            "c/articleImages": [
+                "articleImages/articleImages.js"
+            ],
+            "c/articleCategory": [
+                "articleCategory/articleCategory.js"
             ]
         }
     },
