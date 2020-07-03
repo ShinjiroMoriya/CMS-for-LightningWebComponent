@@ -2,7 +2,6 @@ import { LightningElement, api, wire } from "lwc";
 import { getRecord, getFieldValue, updateRecord } from "lightning/uiRecordApi";
 import { refreshApex } from "@salesforce/apex";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import getImages from '@salesforce/apex/ImageController.getImages';
 import getHeroku from '@salesforce/apex/HerokuController.getHeroku';
 
 const IMAGE_FIELDS = [
@@ -20,16 +19,6 @@ export default class Cloudinary extends LightningElement {
   getHeroku({ error, data }) {
     if (data) {
       this.heroku_url = data.url__c;
-    }
-    if (error) {
-      console.log(error);
-    }
-  }
-
-  @wire(getImages, {})
-  getImages({ error, data }) {
-    if (data) {
-      this.images = data;
     }
     if (error) {
       console.log(error);
@@ -83,6 +72,8 @@ export default class Cloudinary extends LightningElement {
   }
 
   handleImageDelete(event) {
+    // TODO
+    // 使われている記事を確認、or 参照を消す
     if (window.confirm("削除してよろしいですか？")) {
       this.isLoaded = true;
       this.deleteAction(this.image_id).then(res => {
