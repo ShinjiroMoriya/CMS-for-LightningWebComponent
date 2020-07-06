@@ -1,0 +1,35 @@
+<template>
+  <lightning-card
+    title="Quip更新"
+    icon-name="custom:custom16"
+  >
+    <div style="padding: 0 20px;">
+      <div
+        if:true={isLoaded}
+        class="slds-is-relative"
+        style="
+          height: 50px;
+          padding: 5px 0 0 0;
+        "
+      >
+        <lightning-spinner
+          alternative-text="Loading..."
+          variant="brand">
+        </lightning-spinner>
+      </div>
+      <div
+        if:false={isLoaded}
+        class="slds-is-relative"
+        style="
+          height: 50px;
+          padding: 5px 0 0 0;
+        "
+      >
+        <lightning-button
+          label="更新"
+          onclick={handlerQuip}>
+        </lightning-button>
+      </div>
+    </div>
+  </lightning-card>
+</template>
