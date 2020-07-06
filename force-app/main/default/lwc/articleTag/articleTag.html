@@ -1,0 +1,55 @@
+<template>
+  <lightning-card
+    title="タグ"
+    icon-name="custom:custom16"
+  >
+    <div style="padding: 0 20px;">
+      <lightning-input
+        type="text"
+        label="Search Tag"
+        onchange={handleSearchTag}
+      ></lightning-input>
+      <lightning-dual-listbox
+        name="articleTag"
+        source-label="Available"
+        selected-label="Selected"
+        options={articleTagOptions}
+        value={articleTagIds}
+        onchange={handleTagChange}>
+      </lightning-dual-listbox>
+      <lightning-input
+        type="text"
+        label="Create Tag"
+        value={createTagValue}
+        onchange={handleCreateTagValue}
+      ></lightning-input>
+      <div
+        if:true={isLoaded}
+        class="slds-is-relative"
+        style="
+          height: 50px;
+          padding: 5px 0 0 0;
+        "
+      >
+        <lightning-spinner
+          alternative-text="Loading..."
+          variant="brand"
+        ></lightning-spinner>
+      </div>
+      <div if:false={isLoaded}>
+        <div style="padding: 10px 0 0 0;">
+          <lightning-button
+            label="タグ作成"
+            onclick={handleTagCreate}>
+          </lightning-button>
+        </div>
+        <div style="padding: 10px 0 0 0;">
+          <lightning-button
+            label="登録"
+            onclick={handleTagUpdate}>
+          </lightning-button>
+        </div>
+      </div>
+    </div>
+  </lightning-card>
+</template>

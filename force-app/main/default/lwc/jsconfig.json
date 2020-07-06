@@ -11,6 +11,9 @@
             ],
             "c/articleCategory": [
                 "articleCategory/articleCategory.js"
+            ],
+            "c/articleTag": [
+                "articleTag/articleTag.js"
             ]
         }
     },
