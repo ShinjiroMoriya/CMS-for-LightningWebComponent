@@ -1,25 +1,27 @@
 <template>
   <lightning-card>
     <template if:true={imageUrl}>
-      <div style="padding: 0 10px 20px 10px;">
+      <div style="padding: 0 20px 20px 20px;">
         <img src={imageUrl} alt="" style="width: 300px; height: auto;">
       </div>
     </template>
-    <lightning-button
-      variant="brand"
-      label="画像を登録"
-      onclick={openmodal}
-      class="slds-m-left_x-small">
-    </lightning-button>
-    &nbsp;&nbsp;
-    <span if:true={imageUrl}>
+    <div style="padding: 0 10px 10px 10px;">
       <lightning-button
-        variant="destructive"
-        label="画像を取消"
-        onclick={handlerImageDelete}
+        variant="brand"
+        label="画像を登録"
+        onclick={openmodal}
         class="slds-m-left_x-small">
       </lightning-button>
-    </span>
+      &nbsp;&nbsp;
+      <span if:true={imageUrl}>
+        <lightning-button
+          variant="destructive"
+          label="画像を取消"
+          onclick={handlerImageDelete}
+          class="slds-m-left_x-small">
+        </lightning-button>
+      </span>
+    </div>
   </lightning-card>
   <template if:true={openmodel}>
     <div style="height: 640px;">
@@ -66,10 +68,11 @@
               </div>
             </div>
             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-              <div style="margin: -20px 0 15px 0;" onkeyup={handleSearch}>
+              <div style="margin: -20px 0 15px 0;">
                 <lightning-input
                   name="search"
                   type="search"
+                  onkeyup={handleSearch}
                 ></lightning-input>
               </div>
               <ul style="

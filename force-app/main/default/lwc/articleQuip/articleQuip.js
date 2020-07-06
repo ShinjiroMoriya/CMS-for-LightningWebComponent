@@ -54,11 +54,17 @@ export default class ArticleQuip extends LightningElement {
           })
         );
         return refreshApex(this.wiredArticleResults);
-      }).catch(e => {
-        console.log(e);
+      }).catch(() => {
+        this.dispatchEvent(
+          new ShowToastEvent({
+            title: "Error",
+            message: "Error",
+            variant: "error"
+          })
+        );
+      }).finally(() => {
+        this.isLoaded = false;
       });
-    }).finally(() => {
-      this.isLoaded = false;
     });
   }
 

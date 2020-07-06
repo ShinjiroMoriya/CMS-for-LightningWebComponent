@@ -18,7 +18,7 @@ export default class ArticleTag extends LightningElement {
 
   @api recordId;
 
-  @wire(getArticleTags, { articleId: "$recordId"})
+  @wire(getArticleTags, {articleId: "$recordId"})
   getArticleTags(result) {
     if (result.data) {
       this.articleTagOptions = result.data.map(v => {
@@ -40,10 +40,14 @@ export default class ArticleTag extends LightningElement {
         search: this.search
       }).then(result => {
         result.map(v => {
-          this.articleTagOptions.push({
-            value: v.Id,
-            label: v.Name
+          this.articleTagAddOptions = [{
+            value: result.id,
+            label: result.fields.Name.value
+          }];
+          this.articleTagOptions.map(v => {
+            this.articleTagAddOptions.push(v);
           });
+          this.articleTagOptions = this.articleTagAddOptions; 
         });
         const DELIMITER = String.fromCharCode("31");
         this.articleTagOptions = Array.from(new Map(
@@ -167,7 +171,8 @@ export default class ArticleTag extends LightningElement {
       return new Promise((resolve, reject) => {
         if (this.articleTagRemoveIds.length != 0) {
           const deletePromises = this.articleTagRemoveIds.map(
-            v => deleteRecord(this.articleTagRelationshipIds[v]));
+            v => deleteRecord(this.articleTagRelationshipIds[v])
+          );
           Promise.all(deletePromises).then(() => {
             resolve();
           });
