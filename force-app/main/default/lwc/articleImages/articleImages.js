@@ -45,7 +45,7 @@ export default class ArticleImages extends LightningElement {
     }
   }
 
-  @wire(getImages, { offset: "$offset", perPage : "$perPage"})
+  @wire(getImages, {offset: "$offset", perPage : "$perPage"})
   getImages(result) {
     this.wiredImagesResults = result;
     if (result.data) {
@@ -102,6 +102,33 @@ export default class ArticleImages extends LightningElement {
     this.openmodel = false;
   }
 
+  handlerImageDelete() {
+    const recordInput = {
+      fields: {
+        "Id": this.recordId,
+        "FeaturedImage__c": ""
+      }
+    };
+    updateRecord(recordInput).then(() => {
+      this.dispatchEvent(
+        new ShowToastEvent({
+          title: "Success",
+          message: "Image Updated",
+          variant: "success"
+        })
+      );
+      return refreshApex(this.image);
+    }).catch(e => {
+      this.dispatchEvent(
+        new ShowToastEvent({
+          title: "Error",
+          message: e,
+          variant: "error"
+        })
+      );
+    });
+  }
+
   handlePrev() {
     this.prevOffset = this.offset;
     this.offset = this.offset - this.perPage;
@@ -133,8 +160,9 @@ export default class ArticleImages extends LightningElement {
       }).then(result => {
         this.images = result;
       });
-      getImagesCount({ search: this.search })
-      .then(result => {
+      getImagesCount({
+        search: this.search
+      }).then(result => {
         this.imageTotal = result;
         this.totalPage = Math.ceil(this.imageTotal / this.perPage)
         this.nextFlag = this.totalPage != 1;

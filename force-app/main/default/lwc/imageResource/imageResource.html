@@ -1,0 +1,37 @@
+<template>
+  <lightning-card>
+    <div class="slds-m-around_medium">
+      <div
+        if:true={isLoaded}
+        class="slds-is-relative"
+        style="
+          height: 50px;
+          padding: 5px 0 0 0;
+        "
+      >
+        <lightning-spinner
+          alternative-text="Loading..."
+          variant="brand">
+        </lightning-spinner>
+      </div>
+      <div if:false={isLoaded}>
+        <div if:false={image_url}>
+          <lightning-input
+            type="file"
+            label="Image Uploader"
+            accept="image/*"
+            onchange={handleImageUpload}>
+          </lightning-input>
+        </div>
+        <div if:true={image_url}>
+          <lightning-button
+            variant="destructive"
+            label="画像を削除"
+            title="削除"
+            onclick={handleImageDelete}>
+          </lightning-button>
+        </div>
+      </div>
+    </div>
+  </lightning-card>
+</template>

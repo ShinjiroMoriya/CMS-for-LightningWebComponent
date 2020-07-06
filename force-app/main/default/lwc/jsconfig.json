@@ -3,9 +3,6 @@
         "experimentalDecorators": true,
         "baseUrl": ".",
         "paths": {
-            "c/cloudinary": [
-                "cloudinary/cloudinary.js"
-            ],
             "c/articleImages": [
                 "articleImages/articleImages.js"
             ],
@@ -14,6 +11,12 @@
             ],
             "c/articleTag": [
                 "articleTag/articleTag.js"
+            ],
+            "c/articleQuip": [
+                "articleQuip/articleQuip.js"
+            ],
+            "c/imageResource": [
+                "imageResource/imageResource.js"
             ]
         }
     },
