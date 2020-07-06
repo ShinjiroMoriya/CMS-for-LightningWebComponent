@@ -1,18 +1,37 @@
 <template>
-  <lightning-card title="カテゴリー" icon-name="custom:custom15">
+  <lightning-card
+    title="カテゴリー"
+    icon-name="custom:custom15"
+  >
     <div style="padding: 0 20px;">
-      <lightning-checkbox-group
-        class="test"
-        name="category"
+      <lightning-dual-listbox
+        name="articleCategory"
+        source-label="Available"
+        selected-label="Selected"
         options={categoryOptions}
         value={articleCategoryIds}
-        onchange={handleCheckboxChange}
+        onchange={handleCategoryChange}>
+      </lightning-dual-listbox>
+      <div
+        if:true={isLoaded}
+        class="slds-is-relative"
+        style="
+          height: 50px;
+          padding: 5px 0 0 0;
+        "
       >
-      </lightning-checkbox-group>
-      <div style="padding: 10px 0 0 0;">
+        <lightning-spinner
+          alternative-text="Loading..."
+          variant="brand"
+        ></lightning-spinner>
+      </div>
+      <div
+        if:false={isLoaded}
+        style="padding: 10px 0 0 0;"
+      >
         <lightning-button
           label="登録"
-          onclick={handleCheckboxUpdate}>
+          onclick={handleCategoryUpdate}>
         </lightning-button>
       </div>
     </div>

@@ -7,12 +7,12 @@ import getArticleCategoryNumber from "@salesforce/apex/CategoryController.getArt
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class ArticleCategory extends LightningElement {
+  isLoaded = false;
   categoryOptions = []
   categories = []
   articleCategoryIds = []
   articleCategoryAddIds = []
   articleCategoryRemoveIds = []
-  articleCategoryCheckedIds = []
   articleCategoryRelationshipIds = {}
   
   @api recordId;
@@ -33,30 +33,29 @@ export default class ArticleCategory extends LightningElement {
   @wire(getArticleCategories, { articleId: "$recordId"})
   getArticleCategories(result) {
     if (result.data) {
-      this.articleCategoryIds = result.data.map((v) => {
+      this.articleCategoryIds = result.data.map(v => {
         this.articleCategoryRelationshipIds[v.Category__c] = v.Id;
         return v.Category__c
       });
     }
   }
 
-  handleCheckboxChange(event) {
-    this.articleCategoryCheckedIds = event.detail.value.map(v => {
-      return v
-    });
-    this.articleCategoryAddIds = event.detail.value.filter(v => {
+  handleCategoryChange(event) {
+    this.selectedValues = Array.from(event.detail.value.values());
+    this.articleCategoryAddIds = this.selectedValues.filter(v => {
       return this.articleCategoryIds.indexOf(v) == -1;
     }).map(v => {
       return v
     });
     this.articleCategoryRemoveIds = this.articleCategoryIds.filter(v => {
-      return this.articleCategoryCheckedIds.indexOf(v) == -1;
+      return this.selectedValues.indexOf(v) == -1;
     }).map(v => {
       return v
     });
   }
 
-  handleCheckboxUpdate() {
+  handleCategoryUpdate() {
+    this.isLoaded = true;
     Promise.resolve().then(() => {
       return new Promise((resolve, reject) => {
         if (this.articleCategoryAddIds.length != 0) {
@@ -92,7 +91,6 @@ export default class ArticleCategory extends LightningElement {
           getArticleCategoryNumber({
             categoryId: category.Id
           }).then(number => {
-            console.log(category.Id, category.Name, number);
             updateRecord({
               fields: {
                 "Id": category.Id,
@@ -126,6 +124,8 @@ export default class ArticleCategory extends LightningElement {
           variant: "success"
         })
       );
-    })
+    }).finally(() => {
+      this.isLoaded = false;
+    });
   }
 }
