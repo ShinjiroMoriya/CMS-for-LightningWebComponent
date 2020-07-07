@@ -58,15 +58,10 @@ export default class ArticleImages extends LightningElement {
 
   @wire(getImagesCount, {})
   getImagesCount(result) {
-    if (result.data) {
-      this.imageTotal = result.data;
-      this.totalPage = Math.ceil(this.imageTotal / this.perPage)
-      if (this.totalPage == 1) {
-        this.nextFlag = false;
-      }
-    }
-    if (result.error) {
-      console.log(result.error);
+    this.imageTotal = result.data;
+    this.totalPage = Math.ceil(this.imageTotal / this.perPage)
+    if (this.totalPage <= 1) {
+      this.nextFlag = false;
     }
   }
 
@@ -110,6 +105,7 @@ export default class ArticleImages extends LightningElement {
       }
     };
     updateRecord(recordInput).then(() => {
+      this.imageUrl = null;
       this.dispatchEvent(
         new ShowToastEvent({
           title: "Success",
